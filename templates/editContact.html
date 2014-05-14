@@ -1,0 +1,128 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Bootstrap -->
+<link href="{% static "/static/css/bootstrap.min.css"  %}" rel="stylesheet" />
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{% static "/static/js/bootstrap.min.js" %} "></script>
+<script src="{% static "/static/js/common.js" %} "></script>
+<script src="{% static "/static/js/ejs.js" %} "></script>
+
+</head>
+<body>
+<div class="container">
+<div class="panel panel-default">
+<div class="panel-heading">Contact List</div>
+<div class="panel-body">
+
+<script>
+function handleSave()
+{
+
+	var f = document.forms[0];
+	f.submit();
+}
+
+function handleDelete()
+{
+	var id = document.getElementById("id").value;
+	if(id == "0" || id == "None")
+	{
+		alert("You can not delete this record.");
+	}else{
+		window.location = "/delete_contact?id=" + document.getElementById("id").value;
+	}
+}
+
+function handleClose()
+{
+	window.location = "/";
+
+}
+</script>
+</head>
+<body>
+
+<form action="../save_contact" method="post" role="form">
+{% csrf_token %}
+<h1>Edit Contact</h1>
+{% if errors %}
+	<ul>
+		{% for error in errors %}
+		<li>{{ error }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+
+<input type="button" value="Save" onclick="handleSave()"  class="btn btn-primary">
+<input type="button" value="Delete" onclick="handleDelete()"  class="btn btn-primary">
+<input type="button" value="Close" onclick="handleClose()"  class="btn btn-primary">
+
+<input type="hidden" value="{{contact.id}}" name="id" id="id">
+<div class="form-group">
+	<div class="divFieldLabel">First Name</div>
+	<input type="text" name="first_name" id="first_name" value="{{contact.first_name}}"  class="form-control">
+</div>
+
+<div  class="form-group">
+	<div class="divFieldLabel">Last Name</div>
+	<input type="text" name="last_name" id="last_name"  value="{{contact.last_name}}" class="form-control"> 
+</div>
+
+
+<div class="form-group">
+	<div class="divFieldLabel">E-mail</div>
+	<input type="text" name="email" id="email" value="{{contact.email}}" class="form-control">
+</div>
+
+<div  class="form-group">
+	<div class="divFieldLabel">Company</div>
+	<input type="text" name="company" id="company" value="{{contact.company}}" class="form-control">
+</div>
+
+<div  class="form-group">
+	<div class="divFieldLabel">Notes</div>
+	
+		<textarea id="notes" name="notes" style="width:500px;  height:200px;" class="form-control">{{contact.notes}}</textarea>
+	
+</div>
+
+<div  class="form-group">
+	<div class="divFieldLabel">Age</div>
+	<input type="text" name="age" id="age" value="{{contact.age}}" class="form-control">
+</div>
+
+<div class="form-group">
+	<div class="divFieldLabel">Contact date</div>
+	<input class="form-control" type="text" name="contact_date" id="contact_date" value="{{ contact.contact_date|date:'Y-m-d' }}">
+</div>
+	
+</form>
+
+</div> <!-- end panel body -->
+</div> <!-- end panel -->
+</div> <!-- end container -->
+
+</body>  
+</html>
+
+
+
+
+
+
+
+
+
+
